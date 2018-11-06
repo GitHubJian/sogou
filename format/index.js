@@ -4,8 +4,7 @@ const chalk = require('chalk');
 const cliui = require('cliui');
 const path = require('path');
 const root = process.cwd();
-const prettier = require('prettier');
-const prettierrc = require(path.resolve(root, 'prettier.config.js'));
+const formatify = require('./formatify');
 const diffFiles = require('./bulkingCheck')();
 const fs = require('fs');
 
@@ -32,7 +31,7 @@ console.log(chalk.red(headerUi.toString()));
 for (const ite of diffFiles) {
     const st = Date.now();
     let content = fs.readFileSync(ite, { encoding: 'utf-8' });
-    let format = prettier.format(content, prettierrc);
+    let format = formatify(content);
     fs.writeFileSync(ite, format);
     const stat = fs.statSync(ite);
     const et = Date.now();

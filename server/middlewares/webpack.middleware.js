@@ -67,9 +67,9 @@ const getSingleHtmlPlugin = function(k, v) {
 
 module.exports = async app => {
     //执行prepack
-    del.sync(pathConfig.prepack + '');
+    // del.sync(pathConfig.prepack + '');
 
-    await prepack();
+    // await prepack();
 
     const htmlCache = {};
     const compiler = webpack(webpackConfig);
@@ -85,7 +85,7 @@ module.exports = async app => {
                 ctx.path === '/'
                     ? 'index'
                     : path.join(ctx.path.replace('.html', '').substring(1));
-
+            console.log(entryKey);
             const entryValue = projectEntry[entryKey];
 
             if (entryValue) {

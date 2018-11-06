@@ -19,7 +19,6 @@ export default {
     },
     methods: {
         getUserById(id) {
-            debugger;
             return this.$services.getUserById();
         }
     }
