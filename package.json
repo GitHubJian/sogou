@@ -8,12 +8,13 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "NODE_ENV=production PORT=8418 node ./index.js",
         "debug": "node --inspect-brk ./index.js",
-        "dev": "NODE_ENV=development PORT=8417 nodemon ./index.js",
+        "dev": "NODE_ENV=development PORT=8417 node ./index.js",
         "pm2": "pm2 start ./index.js --name qkg",
         "dll": "node ./webpack/dllBuild",
         "build": "NODE_ENV=production node ./webpack/build",
         "webpack": "webpack ./webpack/webpack.config.js",
-        "format": "prettier --write **/**/*.*"
+        "format2": "prettier --write **/**/*.*",
+        "format": "node format"
     },
     "keywords": [],
     "author": "",

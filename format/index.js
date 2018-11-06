@@ -8,7 +8,9 @@ const prettier = require('prettier');
 const prettierrc = require(path.resolve(root, 'prettier.config.js'));
 const diffFiles = require('./bulkingCheck')();
 const fs = require('fs');
+
 console.log(chalk.green('Prettier Start!\n'));
+
 const headerUi = cliui();
 headerUi.span(
     {

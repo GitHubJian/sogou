@@ -6,6 +6,8 @@ let service = [user].reduce((prev, cur) => {
     return prev;
 }, {});
 
+let vue;
+
 const install = (Vue, opts = {}) => {
     Vue.prototype.$services = service;
 };

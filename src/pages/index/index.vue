@@ -1,5 +1,7 @@
 <template>
-    <div>Hello, world</div>
+    <layout>
+        <div>Hello, world</div>
+    </layout>
 </template>
 
 <script>
@@ -17,6 +19,7 @@ export default {
     },
     methods: {
         getUserById(id) {
+            debugger;
             return this.$services.getUserById();
         }
     }

@@ -1,4 +1,5 @@
 const { execSync } = require('child_process');
+const fs = require('fs');
 
 const getGitDiffFiles = () => {
     const filesStringInWorkspace = execSync('git diff --name-only'); // 工作区 <Buffer >
@@ -7,10 +8,13 @@ const getGitDiffFiles = () => {
         .trim()
         .split('\n')
         .filter(v => {
-            return ['.js', '.vue', '.css'].some(v2 => v.endsWith(v2));
+            return ['.js'].some(v2 => v.endsWith(v2));
+        })
+        .filter(v => {
+            return fs.existsSync(v);
         });
 
-    return gitDiffFiles;
+    return Array.from(new Set(gitDiffFiles));
 };
 
 module.exports = getGitDiffFiles;
