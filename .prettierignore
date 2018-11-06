@@ -1,9 +1,9 @@
-/node_modules/
-/.git/
-/.temp/
-/.vscode/
-/.DC_Store/
-/static/
+/node_modules
+/.git
+/.temp
+/.vscode
+/.DS_Store
+/static
 .gitignore
 .jshintrc
 .prettierignore
