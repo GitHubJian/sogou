@@ -26,7 +26,7 @@ const print = stats => {
         )}ms`,
         padding: [1, 0, 1, 0]
     });
-    
+
     const printTable = arr => ui.div(...arr.map(v => ({ text: v })));
 
     const thead = ['类型', '数量', '文件大小'].map(v => chalk.cyan(v));
@@ -57,7 +57,7 @@ const print = stats => {
         tbody.length,
         filesize(sum(tbody.map(v => v.size)))
     ].map(v => chalk.green(v));
-    
+
     printTable(tfoot);
 
     console.log(ui.toString());

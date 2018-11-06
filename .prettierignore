@@ -1,0 +1,15 @@
+/node_modules/
+/.git/
+/.temp/
+/.vscode/
+/.DC_Store/
+/static/
+.gitignore
+.jshintrc
+.prettierignore
+.prettierrc
+favicon.ico
+package-lock.json
+package.json
+yarn-error.log
+*.ejs

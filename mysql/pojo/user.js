@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('./../conn');
 
 console.log(process.env.NODE_ENV);
-console.log(process.env.)
+console.log(process.env);
 
 const Test = sequelize.define('tests', {
     username: Sequelize.STRING,
