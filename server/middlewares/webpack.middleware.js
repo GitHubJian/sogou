@@ -106,7 +106,7 @@ module.exports = async app => {
             } else {
                 ctx.status = 404;
                 ctx.body = {
-                    msg: '运行prepack命令'
+                    msg: '不存在当前路径'
                 };
             }
         } else {
