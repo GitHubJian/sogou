@@ -16,7 +16,8 @@ const {
     assetProxyMiddleware,
     webpackMiddleware,
     authMiddleware,
-    routeMiddleware
+    routeMiddleware,
+    notfoundMiddleware
 } = require('./middlewares');
 
 module.exports = ({ host = 'localhost', port = 8418 }) => {
@@ -28,13 +29,15 @@ module.exports = ({ host = 'localhost', port = 8418 }) => {
     //app.use(authMiddleware());
 
     routeMiddleware(app);
-    
+
     //静态资源
     if (isDevelopment) {
         webpackMiddleware(app);
     } else {
         app.use(assetProxyMiddleware());
     }
+
+    app.use(notfoundMiddleware());
 
     app.listen(port, () => {
         logger.info(`✨ 服务已启动 http://${host}:${port}\n`);

@@ -7,10 +7,9 @@ const { static: staticPath } = config.get('path');
 module.exports = () => {
     return async (ctx, next) => {
         let maxage = 365 * 24 * 60 * 60 * 1000; // one year
-        let reqPath = ctx.path,
-            realPath = reqPath;
+        let reqPath = ctx.path;
 
-        if (reqPath === '/') reqPath = realPath = '/index.html';
+        if (reqPath === '/') reqPath = '/index.html';
 
         if (/.*\.html$/.test(reqPath)) {
             maxage = 0;
@@ -21,27 +20,25 @@ module.exports = () => {
 
         let result;
 
-        if (!exists) {
-            reqPath = '/index.html';
-        }
-
-        result = await send(ctx, reqPath, {
-            root: staticPath,
-            maxage,
-            setHeaders: (res, path, stats) => {
-                res.setHeader('Author', 'ws.xiao');
-                if (path.endsWith('.json')) {
-                    res.setHeader('Access-Control-Allow-Origin', '*');
+        if (exists) {
+            result = await send(ctx, reqPath, {
+                root: staticPath,
+                maxage,
+                setHeaders: (res, path, stats) => {
+                    res.setHeader('Author', 'ws.xiao');
+                    if (path.endsWith('.json')) {
+                        res.setHeader('Access-Control-Allow-Origin', '*');
+                    }
+                    // res.setHeader(
+                    //     'Cache-Control',
+                    //     `max-age=${
+                    //         path.endsWith('.html') ? 0 : 3.1536 * 1e10
+                    //     },must-revalidate`
+                    // );
+                    res.setHeader('Cache-Control', `max-age=0,must-revalidate`);
                 }
-                // res.setHeader(
-                //     'Cache-Control',
-                //     `max-age=${
-                //         path.endsWith('.html') ? 0 : 3.1536 * 1e10
-                //     },must-revalidate`
-                // );
-                res.setHeader('Cache-Control', `max-age=0,must-revalidate`);
-            }
-        });
+            });
+        }
 
         if (!result) {
             await next();

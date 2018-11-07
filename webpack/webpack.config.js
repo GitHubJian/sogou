@@ -54,7 +54,7 @@ const HtmlWebpackPluginList = Object.entries(entry).map(([k, v]) => {
         title: '测试',
         favicon: pathConfig.favicon,
         chunks: ['global', k],
-        chunksSortMode: 'none',
+        chunksSortMode: 'dependency',
         NODE_ENV
     });
 });
@@ -100,7 +100,9 @@ const webpackConfig = {
         new webpack.NoEmitOnErrorsPlugin(),
         new CopyWebpackPlugin(dllCopyPath)
     ],
-    optimization: {},
+    optimization: {
+        splitChunks: {}
+    },
     performance: {
         hints: false
     },
@@ -112,7 +114,7 @@ const webpackConfig = {
     },
     devtool: isDevelopment ? 'eval-source-map' : ''
 };
-
+console.log(Object.keys(dllEntry).map(v=>`${pathConfig.dll}/${v}.json`))
 //动态引入dll
 webpackConfig.plugins.push(
     ...Object.keys(dllEntry).reduce((prev, v) => {
@@ -142,28 +144,31 @@ if (isDevelopment) {
             extractCSS,
             new CleanWebpackPlugin([pathConfig.static], {
                 root: pathConfig.root,
-                verbose: false
+                exclude: [],
+                verbose: true,
+                dry: false
             }),
-            new AssetsWebpackPlugin({
-                path: pathConfig.static,
-                filename: 'index.json',
-                prettyPrint: true,
-                processOutput(assets) {
-                    delete assets[''];
-                    return JSON.stringify(assets, null, 4);
-                }
-            }),
+            // new AssetsWebpackPlugin({
+            //     path: pathConfig.static,
+            //     filename: 'index.json',
+            //     prettyPrint: true,
+            //     processOutput(assets) {
+            //         delete assets[''];
+            //         return JSON.stringify(assets, null, 4);
+            //     }
+            // }),
             ...HtmlWebpackPluginList
         ]
     );
-    if (existsSync(`${pathConfig.dll}/index.json`)) {
-        webpackConfig.plugins.push(
-            new HtmlWebpackIncludeAssetsPlugin({
-                append: false,
-                assets: htmlAssets
-            })
-        );
-    }
+}
+
+if (existsSync(`${pathConfig.dll}/index.json`)) {
+    webpackConfig.plugins.push(
+        new HtmlWebpackIncludeAssetsPlugin({
+            append: false,
+            assets: htmlAssets
+        })
+    );
 }
 
 if (isProduction) {
