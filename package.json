@@ -12,8 +12,9 @@
         "dev": "NODE_ENV=development PORT=8417 node ./index.js",
         "pm2": "pm2 start ./index.js --name sogou",
         "prepack": "node ./webpack/isPrepack.js",
-        "dll": "node ./webpack/dllBuild",
+        "dll": "NODE_ENV=production node ./webpack/dllBuild",
         "build": "NODE_ENV=production node ./webpack/build",
+        "webpack": "npm run dll && npm run build",
         "format2": "prettier --write **/**/*.*",
         "format": "node format"
     },
