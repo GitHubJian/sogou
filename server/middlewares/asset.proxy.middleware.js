@@ -1,11 +1,33 @@
 const send = require('koa-send');
 const path = require('path');
-const rootPath = process.cwd();
+const config = require('config');
+const fse = require('fs-extra');
+const { static: staticPath } = config.get('path');
 
 module.exports = () => {
     return async (ctx, next) => {
-        await send(ctx, ctx.path === '/' ? 'index.html' : ctx.path, {
-            root: path.resolve(rootPath, 'static'),
+        let maxage = 365 * 24 * 60 * 60 * 1000; // one year
+        let reqPath = ctx.path,
+            realPath = reqPath;
+
+        if (reqPath === '/') reqPath = realPath = '/index.html';
+
+        if (/.*\.html$/.test(reqPath)) {
+            maxage = 0;
+        }
+
+        let filePath = path.resolve(staticPath, `.${reqPath}`);
+        const exists = await fse.pathExists(filePath);
+
+        let result;
+
+        if (!exists) {
+            reqPath = '/index.html';
+        }
+
+        result = await send(ctx, reqPath, {
+            root: staticPath,
+            maxage,
             setHeaders: (res, path, stats) => {
                 res.setHeader('Author', 'ws.xiao');
                 if (path.endsWith('.json')) {
@@ -20,6 +42,9 @@ module.exports = () => {
                 res.setHeader('Cache-Control', `max-age=0,must-revalidate`);
             }
         });
-        await next();
+
+        if (!result) {
+            await next();
+        }
     };
 };

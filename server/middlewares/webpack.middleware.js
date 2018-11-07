@@ -78,14 +78,11 @@ module.exports = async app => {
     });
 
     app.use(async (ctx, next) => {
-        logger.node(ctx.path);
-
         if (ctx.path === '/' || ctx.path.endsWith('.html')) {
             const entryKey =
                 ctx.path === '/'
                     ? 'index'
                     : path.join(ctx.path.replace('.html', '').substring(1));
-            console.log(entryKey);
             const entryValue = projectEntry[entryKey];
 
             if (entryValue) {

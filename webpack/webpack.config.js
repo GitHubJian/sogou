@@ -54,6 +54,7 @@ const HtmlWebpackPluginList = Object.entries(entry).map(([k, v]) => {
         title: '测试',
         favicon: pathConfig.favicon,
         chunks: ['global', k],
+        chunksSortMode: 'none',
         NODE_ENV
     });
 });

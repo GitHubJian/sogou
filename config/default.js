@@ -8,6 +8,10 @@ const [isDevelopment, isProduction] = [
     NODE_ENV === 'production'
 ];
 
+let port = PORT || 8417,
+    host = 'localhost',
+    url = `http://${host}${port ? ':' + port : ''}`;
+
 module.exports = {
     path: {
         mock: resolve(root, 'mock'),
@@ -32,8 +36,9 @@ module.exports = {
         NODE_ENV,
         isDevelopment,
         isProduction,
-        port: PORT || 8417,
-        host: 'localhost'
+        port,
+        host,
+        url
     },
     mysql: {
         host: 'localhost',
