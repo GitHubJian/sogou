@@ -12,7 +12,7 @@ const formatify = require(path.resolve(root, 'format/formatify.js'));
 router.get('/list', (ctx, next) => {});
 router.get('/:id', (ctx, next) => {});
 router.post('/', (ctx, next) => {
-    let { body } = ctx.request;
+    let body = ctx.request.body;
 
     let { project, name, method } = body;
 

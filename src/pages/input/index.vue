@@ -37,7 +37,8 @@ export default {
     },
     methods: {
         submit() {
-            this.$services.saveApi({ ...this.form });
+            //this.$services.saveApi({ ...this.form });
+            this.$services.saveApiMongod({ ...this.form });
         }
     }
 };

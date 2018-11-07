@@ -41,5 +41,9 @@ module.exports = {
         database: 'test',
         username: 'root',
         password: 'P@ssw0rd'
+    },
+    mongodb: {
+        url: 'mongodb://localhost:27017',
+        db: 'test'
     }
 };

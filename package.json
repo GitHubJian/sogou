@@ -63,6 +63,7 @@
         "koa-webpack-middleware": "^1.0.7",
         "ktils": "^1.0.4",
         "loading-cli": "^1.0.8",
+        "mongodb": "^3.1.9",
         "mysql2": "^1.6.2",
         "node-sass": "^4.9.3",
         "nodemon": "^1.18.5",

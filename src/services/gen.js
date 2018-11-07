@@ -21,3 +21,9 @@ export const saveApi = body => {
         console.log(res);
     });
 };
+
+export const saveApiMongod = body => {
+    return axios.post('gen/mongodb/api', { project: 'test', ...body }).then(res => {
+        console.log(res);
+    });
+};
