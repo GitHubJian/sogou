@@ -18,7 +18,6 @@ router.post('/', (ctx, next) => {
 
     let dir = path.resolve(mock, project),
         file = path.resolve(mock, project, 'a.js');
-    debugger;
     try {
         fse.ensureDirSync(dir);
         // file is exists
@@ -46,7 +45,6 @@ router.post('/', (ctx, next) => {
         content = 'module.exports = {' + content + '};';
 
         //写文件
-        debugger;
         content = formatify(content);
         console.log(content);
         fs.writeFileSync(file, content, { encoding: 'utf-8' });

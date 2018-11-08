@@ -11,7 +11,6 @@ const router = new Router({ prefix: '/mongodb' });
 
 router.post('/api', async (ctx, next) => {
     let body = ctx.request.body;
-    debugger;
     await connect(
         url,
         db
@@ -22,7 +21,6 @@ router.post('/api', async (ctx, next) => {
             return insertDocuments(user, [body]);
         })
         .then(res => {
-            debugger;
             ctx.body = {
                 code: 0,
                 data: res,
