@@ -8,7 +8,6 @@ const fs = require('fs-extra');
 const { writeFileSync } = require('fs');
 
 const createContent = entry => {
-    // why Vue is not global's vue
     return [
         `import Vue from 'vue';`,
         `import entry from '${entry}';`,

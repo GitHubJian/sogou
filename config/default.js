@@ -14,12 +14,14 @@ let port = PORT || 8417,
 
 module.exports = {
     path: {
+        root: root,
         mock: resolve(root, 'mock'),
         src: resolve(root, 'src'),
         pages: resolve(root, 'src/pages'),
         global: resolve(root, 'src/global.js'),
         temp: resolve(root, '.temp'),
         dll: resolve(root, '.temp/dll'),
+        dllVersion: resolve(root, '.temp/dll/version.json'),
         webpack: resolve(root, 'webpack'),
         template: resolve(root, 'webpack/template.ejs'),
         prepackPath: resolve(root, '.temp/prepack'),

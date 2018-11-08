@@ -4,11 +4,15 @@ const [isDevelopment, isProduction] = [
     NODE_ENV == 'production'
 ];
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const extractCSS = new ExtractTextPlugin({
-    filename: 'css/[name].css',
-    allChunks: true
-});
+const extractCSS = require('./extract');
+const eslintRule = require('./eslint.js')();
+
+const {
+    jsHappyPackPlugin,
+    cssHappyPackPlugin,
+    vueHappyPackPlugin,
+    scssHappyPackPlugin
+} = require('./happypack');
 
 const rules = [
     {
@@ -22,31 +26,40 @@ const rules = [
                 }
             }
         ]
+    },
+    {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        use: 'happypack/loader?id=js'
     }
 ];
 
 const rules4Prod = [
     {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-            loaders: {
-                css: extractCSS.extract({
-                    fallback: 'vue-style-loader',
-                    use: ['css-loader']
-                }),
-                sass: extractCSS.extract({
-                    fallback: 'vue-style-loader',
-                    use: ['sass-loader', 'css-loader']
-                }),
-                js: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
+        use: [
+            {
+                loader: 'vue-loader',
+                options: {
+                    loaders: {
+                        css: extractCSS.extract({
+                            fallback: 'vue-style-loader',
+                            use: ['css-loader']
+                        }),
+                        sass: extractCSS.extract({
+                            fallback: 'vue-style-loader',
+                            use: ['sass-loader', 'css-loader']
+                        }),
+                        js: {
+                            loader: 'babel-loader',
+                            options: {
+                                presets: ['@babel/preset-env']
+                            }
+                        }
                     }
                 }
             }
-        }
+        ]
     },
     {
         test: /\.css$/,
@@ -66,18 +79,6 @@ const rules4Prod = [
             fallback: 'style-loader',
             use: ['css-loader', 'sass-loader']
         })
-    },
-    {
-        test: /\.js$/,
-        exclude: /(node_modules)/,
-        use: [
-            {
-                loader: 'babel-loader',
-                options: {
-                    presets: ['@babel/preset-env']
-                }
-            }
-        ]
     }
 ].concat(rules);
 
@@ -87,18 +88,6 @@ const rules4Dev = [
         use: 'vue-loader'
     },
     {
-        test: /\.js$/,
-        exclude: /(node_modules)/,
-        use: [
-            {
-                loader: 'babel-loader',
-                options: {
-                    presets: ['@babel/preset-env']
-                }
-            }
-        ]
-    },
-    {
         test: /\.css$/,
         use: ['vue-style-loader', 'css-loader']
     },
@@ -106,6 +95,17 @@ const rules4Dev = [
         test: /\.scss$/,
         use: ['vue-style-loader', 'css-loader', 'sass-loader']
     }
-].concat(rules);
+]
+    .concat(rules)
+    .concat([eslintRule]);
 
-module.exports = { extractCSS, rules: isDevelopment ? rules4Dev : rules4Prod };
+module.exports = {
+    happyPackPlugins: [
+        jsHappyPackPlugin,
+        cssHappyPackPlugin,
+        scssHappyPackPlugin,
+        vueHappyPackPlugin
+    ],
+    extractCSS,
+    rules: isDevelopment ? rules4Dev : rules4Prod
+};

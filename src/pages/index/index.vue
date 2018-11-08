@@ -5,20 +5,20 @@
 </template>
 
 <script>
-import axios from 'axios';
+import store from './store.js';
 
 export default {
+    store,
     data() {
         return {};
     },
     created() {
-        this.getUserById().then(res => {
-            console.log(res);
+        this.getUserById().then(() => {
         });
         this.$services.getUserByIdMock();
     },
     methods: {
-        getUserById(id) {
+        getUserById() {
             return this.$services.getUserById();
         }
     }

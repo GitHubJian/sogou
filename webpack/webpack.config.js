@@ -4,7 +4,7 @@ const { statSync, existsSync, readdirSync } = require('fs');
 const fs = require('fs-extra');
 const { pathConfig } = require('./config');
 const { entry } = require('./entry');
-const { rules, extractCSS } = require('./rules');
+const { rules, extractCSS, happyPackPlugins } = require('./rules');
 
 const webpack = require('webpack');
 
@@ -98,7 +98,8 @@ const webpackConfig = {
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
-        new CopyWebpackPlugin(dllCopyPath)
+        new CopyWebpackPlugin(dllCopyPath),
+        ...happyPackPlugins
     ],
     optimization: {
         splitChunks: {}
@@ -114,7 +115,6 @@ const webpackConfig = {
     },
     devtool: isDevelopment ? 'eval-source-map' : ''
 };
-console.log(Object.keys(dllEntry).map(v=>`${pathConfig.dll}/${v}.json`))
 //动态引入dll
 webpackConfig.plugins.push(
     ...Object.keys(dllEntry).reduce((prev, v) => {

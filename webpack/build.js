@@ -9,4 +9,4 @@ const build = async () => {
     afterpack();
 };
 
-build();
+module.exports = build;
