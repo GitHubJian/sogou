@@ -6,6 +6,7 @@ const koaLogger = require('koa-logger');
 const koaFavicon = require('koa-favicon');
 const koaStatic = require('koa-static');
 const { logger } = require('./utils');
+const { entry } = require('./../webpack/entry');
 
 const {
     pathConfig: { static: staticPath },
@@ -41,5 +42,9 @@ module.exports = ({ host = 'localhost', port = 8418 }) => {
 
     app.listen(port, () => {
         logger.info(`✨ 服务已启动 http://${host}:${port}\n`);
+        
+        Object.keys(entry).map(v => {
+            console.log(`http://${host}:${port}/${v}.html`);
+        });
     });
 };
