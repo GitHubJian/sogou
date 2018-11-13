@@ -39,6 +39,7 @@ server.use(async (ctx, next) => {
     let reqPath = ctx.path == '/' ? '/index.html' : ctx.path;
     let filepath = path.join(__dirname, 'dist', './', reqPath);
     let exists = fs.existsSync(filepath);
+    debugger;
     if (exists) {
         await koaSend(ctx, reqPath, {
             root: path.resolve(__dirname, 'dist')

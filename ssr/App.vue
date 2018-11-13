@@ -1,19 +1,24 @@
 <template>
     <div>
-        Hello,{{state.item}}
+        Hello,{{item}}
+        <input v-model="msg" />
     </div>
 </template>
 
 <script>
 export default {
+    fetch({ store }) {
+        return store.dispatch('fetchItem');
+    },
     data() {
         return {
             msg: 'xiaows'
         };
     },
-    fetchdata({ store }) {
-        // 触发 action 后，会返回 Promise
-        return store.dispatch('fetchItem');
+    computed: {
+        item: function() {
+            return this.$store.state.item + this.msg;
+        }
     }
 };
 </script>

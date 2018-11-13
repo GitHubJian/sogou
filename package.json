@@ -18,7 +18,8 @@
         "format2": "prettier --write **/**/*.*",
         "format": "node format",
         "ssr": "nodemon ./ssr/server.js",
-        "build-ssr": "rm -rf ./ssr/dist && webpack --config ./ssr/webpack.client.conf.js && webpack --config ./ssr/webpack.server.conf.js"
+        "build-ssr": "rm -rf ./ssr/dist && webpack --config ./ssr/webpack.client.conf.js && webpack --config ./ssr/webpack.server.conf.js",
+        "debug-ssr": "node --inspect-brk ./ssr/server.js"
     },
     "keywords": [],
     "author": "",

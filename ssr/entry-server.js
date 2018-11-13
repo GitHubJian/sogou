@@ -1,19 +1,13 @@
-import Vue from 'vue';
+import { createApp } from './app';
 import App from './App.vue';
-import createStore from './store';
 
-export default function(context) {
-    const store = createStore();
+export default context => {
+    return new Promise((resolve, reject) => {
+        const { app, store } = createApp();
 
-    let app = new Vue({
-        store,
-        render: h => h(App)
+        App.fetch({ store }).then(() => {
+            context.state = store.state;
+            resolve(app);
+        });
     });
-
-    return App.fetchdata().then(res => {
-        Vue.set(store.state, res);
-        context.state = store.state;
-
-        return app;
-    });
-}
+};

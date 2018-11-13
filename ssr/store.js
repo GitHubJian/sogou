@@ -11,22 +11,23 @@ function fetch() {
     });
 }
 
-export default function createStore() {
+export function createStore() {
     return new Vuex.Store({
         state: {
-            item: ''
+            item: {}
         },
-        action: {
+        actions: {
             fetchItem({ commit }) {
+                // `store.dispatch()` 会返回 Promise，
+                // 以便我们能够知道数据在何时更新
                 return fetch().then(({ item }) => {
-                    cosnoel.log(item)
                     commit('setItem', { item });
                 });
             }
         },
         mutations: {
             setItem(state, { item }) {
-                Vue.set(state.item, item);
+                Vue.set(state, 'item', item);
             }
         }
     });
