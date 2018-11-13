@@ -3,10 +3,13 @@ const fse = require('fs-extra');
 const fs = require('fs');
 const path = require('path');
 
-function init(to) {
+let srcArray = __dirname.split('/');
+srcArray.pop();
+let srcRoot = srcArray.join('/');
+
+function copy(to) {
     //当前文件的跟目录
-    const srcRoot = root;
-    const dest = path.resolve(root, '..', 'copyTo' + Date.now());
+    const dest = path.resolve(root, '..', to + Date.now());
     fse.copySync(srcRoot, dest, {
         filter: p => {
             return ![
@@ -24,4 +27,4 @@ function init(to) {
     });
 }
 
-init();
+module.exports = copy;
