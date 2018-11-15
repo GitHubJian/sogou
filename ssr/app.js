@@ -1,14 +1,14 @@
 import Vue from 'vue';
 import App from './App.vue';
-import { createStore } from './store';
+import store from './index/store.js';
 
-export function createApp() {
-    const store = createStore();
+const app = new Vue({
+    store,
+    render: h => h(App)
+});
 
-    const app = new Vue({
-        store,
-        render: h => h(App)
-    });
-
-    return { app, store };
-}
+export { 
+    app, 
+    store, 
+    App 
+};

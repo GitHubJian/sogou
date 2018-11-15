@@ -18,6 +18,8 @@ const {
     webpackMiddleware,
     authMiddleware,
     routeMiddleware,
+    ssrMiddleware,
+    ssrhotMiddleware,
     notfoundMiddleware
 } = require('./middlewares');
 
@@ -37,13 +39,15 @@ module.exports = ({ host = 'localhost', port = 8418 }) => {
     // } else {
     //     app.use(assetProxyMiddleware());
     // }
+    app.use(ssrhotMiddleware());
+    app.use(ssrMiddleware());
 
     app.use(assetProxyMiddleware());
     app.use(notfoundMiddleware());
 
     app.listen(port, () => {
         logger.info(`✨ 服务已启动 http://${host}:${port}\n`);
-        
+
         Object.keys(entry).map(v => {
             console.log(`http://${host}:${port}/${v}.html`);
         });

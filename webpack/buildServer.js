@@ -1,7 +1,7 @@
 const webpackCompiler = require('./compiler');
-const prepack = require('./prepack');
+const prepack = require('./prepackSSR');
 const afterpack = require('./afterpack');
-const { webpackConfig } = require('./webpack.config');
+const { webpackConfig } = require('./webpack.server.config');
 
 const build = async () => {
     await prepack();

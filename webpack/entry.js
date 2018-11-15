@@ -1,17 +1,21 @@
 const glob = require('glob');
-const { resolve } = require('path');
+const path = require('path');
 const {
-    pathConfig: { src, prepackPath }
+    pathConfig: { pages, prepackPath }
 } = require('./config');
 
-const entry = glob
-    .sync(resolve(src, './pages/**/index.vue'))
-    .reduce((prev, cur) => {
-        let entryKey = cur.split('/').slice(-2, -1)[0];
-        let entryValue = resolve(prepackPath, `${entryKey}.js`);
+let entry = {},
+    serverEntry = {},
+    clientEntry = {};
 
-        prev[entryKey] = entryValue;
-        return prev;
-    }, {});
+glob.sync(path.resolve(pages, './**/index.vue'))
+    .map(v => {
+        return v.split('/').slice(-2, -1)[0];
+    })
+    .forEach(key => {
+        entry[key] = path.resolve(prepackPath, `${key}.js`);
+        serverEntry[key] = path.resolve(prepackPath, `${key}-server.js`);
+        clientEntry[key] = path.resolve(prepackPath, `${key}-client.js`);
+    });
 
-module.exports = { entry };
+module.exports = { entry, serverEntry, clientEntry };

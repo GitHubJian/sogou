@@ -1,11 +1,14 @@
-import { createApp } from './app';
-import App from './App.vue';
+import { 
+    app, 
+    store, 
+    App 
+} from './app';
 
 export default context => {
     return new Promise((resolve, reject) => {
-        const { app, store } = createApp();
-
-        App.fetch({ store }).then(() => {
+        App.fetch({ 
+            store
+         }).then(() => {
             context.state = store.state;
             resolve(app);
         });

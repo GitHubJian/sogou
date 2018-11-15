@@ -1,21 +1,17 @@
 <template>
     <layout>
-        <div>Hello, world</div>
+        <div slot="content">
+            Hello, world123123
+            {{name}}
+            <input v-model="name">
+        </div>
     </layout>
 </template>
 
 <script>
-import store from './store.js';
-
 export default {
-    store,
     data() {
-        return {};
-    },
-    created() {
-        this.getUserById().then(() => {
-        });
-        this.$services.getUserByIdMock();
+        return { name: 1 };
     },
     methods: {
         getUserById() {
