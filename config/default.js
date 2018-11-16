@@ -31,7 +31,8 @@ module.exports = {
         nodeModule: resolve(root, 'node_modules'),
         dist: resolve(root, 'dist'),
         favicon: resolve(root, 'favicon.ico'),
-        zoo: resolve(root, 'zoo')
+        zoo: resolve(root, 'zoo'),
+        serverProxyConfig: resolve(root, 'server.proxy.config.js')
     },
     project: {
         title: 'Sogou Test'
