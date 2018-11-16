@@ -43,10 +43,6 @@ function isObject(v) {
     return v !== null && (type == 'object' || type == 'function');
 }
 
-function isDate(v) {
-    return isObjectLike(v) && _toString_.call(v) == '[object Date]';
-}
-
 function isArray(v) {
     return Array.isArray(v);
 }
@@ -75,6 +71,54 @@ function isNull(v) {
 
 function isUndefined(v) {
     return v === undefined;
+}
+
+function isSymbol(v) {
+    const type = typeof v;
+    return (
+        type == 'symbol' ||
+        (type == 'object' &&
+            v != null &&
+            _toString_.call(v) == '[object Symbol]')
+    );
+}
+
+function isWeakMap(v) {
+    return isObjectLike(v) && _toString_.call(v) == '[object WeakMap]';
+}
+
+function isWeakSet(v) {
+    return isObjectLike(v) && _toString_.call(v) == '[object WeakSet]';
+}
+
+function isDate(v) {
+    return isObjectLike(v) && _toString_.call(v) == '[object Date]';
+}
+
+function isMap(v) {
+    return isObjectLike(v) && _toString_.call(v) == '[object Map]';
+}
+
+function isFunction(v) {
+    if (!isObject(v)) {
+        return false;
+    }
+
+    let tag = _toString_.call(v);
+    return (
+        tag == '[object Function]' ||
+        tag == '[object AsyncFunction]' ||
+        tag == '[object GeneratorFunction]' ||
+        tag == '[object Proxy]'
+    );
+}
+
+function isSet(v) {
+    return isObjectLike(v) && _toString_.call(v) == '[object Set]';
+}
+
+function isRegExp(v) {
+    return isObjectLike(v) && _toString_.call(v) == '[object RegExp]';
 }
 
 /**
@@ -111,6 +155,7 @@ function check(a, b) {
             return false;
         }
     }
+
     if (isObject(a)) {
         let t = isObject(b);
         if (t) {
@@ -126,6 +171,18 @@ function check(a, b) {
         } else {
             return false;
         }
+    }
+
+    if (isDate(a)) {
+        return isDate(b);
+    }
+
+    if (isFunction(a)) {
+        return isFunction(b);
+    }
+
+    if (isRegExp(a)) {
+        return isRegExp(b);
     }
 }
 
