@@ -5,6 +5,7 @@ const fs = require('fs-extra');
 const { pathConfig } = require('./config');
 const { entry } = require('./entry');
 const { rules, extractCSS, happyPackPlugins } = require('./rules');
+const { alias } = require('./alias');
 
 const webpack = require('webpack');
 
@@ -58,16 +59,6 @@ const HtmlWebpackPluginList = Object.entries(entry).map(([k, v]) => {
         NODE_ENV
     });
 });
-
-const alias = glob
-    .sync(resolve(pathConfig.src, './*'))
-    .filter(v => {
-        return statSync(v).isDirectory();
-    })
-    .reduce((prev, cur) => {
-        prev[basename(cur)] = cur;
-        return prev;
-    }, {});
 
 const webpackConfig = {
     mode: 'production',
