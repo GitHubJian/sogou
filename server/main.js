@@ -32,12 +32,8 @@ module.exports = ({ host = 'localhost', port = 8418 }) => {
     routeMiddleware(app);
 
     //静态资源
-    if (isDevelopment) {
-        webpackMiddleware(app);
-    } else {
-        app.use(assetProxyMiddleware());
-    }
-
+    webpackMiddleware(app);
+    app.use(assetProxyMiddleware());
     app.use(notfoundMiddleware());
 
     app.listen(port, () => {

@@ -4,7 +4,7 @@
  * "error" or 2 - turn the rule on as an error (exit code is 1 when triggered)
  */
 
-const ProvideGlobals = [];
+const ProvideGlobals = ['window'];
 
 const NoRestrictedGlobals = ['location', 'navigator', 'screen'].map(v => ({
     name: v,

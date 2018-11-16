@@ -95,9 +95,8 @@ const rules4Dev = [
         test: /\.scss$/,
         use: ['vue-style-loader', 'css-loader', 'sass-loader']
     }
-]
-    .concat(rules)
-    .concat([eslintRule]);
+].concat(rules);
+//.concat([eslintRule]);
 
 module.exports = {
     happyPackPlugins: [

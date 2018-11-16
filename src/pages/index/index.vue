@@ -1,7 +1,7 @@
 <template>
     <layout>
         <div slot="content">
-            Hello, world123123
+            Hello, world111
             {{name}}
             <input v-model="name">
         </div>
