@@ -1,6 +1,9 @@
 const clone = require('clone');
 const path = require('path');
 const rootPath = process.cwd();
+const {
+    serverConfig: { isDevelopment }
+} = require('./../config');
 
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -42,6 +45,9 @@ function compile(compiler) {
 }
 
 const middleware = async (ctx, next) => {
+    if (!isDevelopment) {
+        return next();
+    }
     const urlpath = ctx.path === '/' ? '/index.html' : ctx.path;
     if (!urlpath.endsWith('.html')) {
         return next();

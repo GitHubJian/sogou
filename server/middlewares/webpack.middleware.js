@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const {
     pathConfig,
-    serverConfig: { NODE_ENV }
+    serverConfig: { NODE_ENV, isDevelopment }
 } = require('./../config');
 
 const webpack = require('webpack');
@@ -66,6 +66,9 @@ const getSingleHtmlPlugin = function(k, v) {
 };
 
 module.exports = async app => {
+    if (!isDevelopment) {
+        return;
+    }
     //执行prepack
     // del.sync(pathConfig.prepack + '');
 

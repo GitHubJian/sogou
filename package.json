@@ -15,7 +15,7 @@
         "dll": "NODE_ENV=production node ./webpack/dllBuild.index.js",
         "build": "NODE_ENV=production node ./webpack/build.index.js",
         "webpack": "NODE_ENV=production node ./webpack",
-        "webpack-ssr": "NODE_ENV=production node ./webpack/buildSSR.index.js",
+        "webpack:ssr" :"NODE_ENV=production node ./webpack/indexSSR.js",
         "format2": "prettier --write **/**/*.*",
         "format": "node format",
         "ssr": "nodemon ./ssr/server.js",

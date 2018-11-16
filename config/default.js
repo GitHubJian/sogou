@@ -1,6 +1,21 @@
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 const root = process.cwd();
 const { resolve } = require('path');
+const fs = require('fs');
+let isEnvConfExists = fs.existsSync(resolve(root, 'env.config.js'));
+let env;
+if (isEnvConfExists) {
+    // need to check value
+    env = require('./../env.config.js');
+    Object.entries(env).forEach(([k, v]) => {
+        process.env[k] = v;
+    });
+} else {
+    process.env['NODE_ENV'] = process.env.NODE_ENV || 'development';
+    process.env['NODE_RENDER_TYPE'] = 'common';
+    env = {
+        NODE_RENDER_TYPE: 'common'
+    };
+}
 
 const { NODE_ENV, PORT } = process.env;
 const [isDevelopment, isProduction] = [
@@ -38,6 +53,7 @@ module.exports = {
         title: 'Sogou Test'
     },
     server: {
+        ...env,
         NODE_ENV,
         isDevelopment,
         isProduction,
