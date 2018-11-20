@@ -66,7 +66,8 @@ const webpackConfig = {
     output: {
         filename: 'js/[name].js',
         path: pathConfig.static,
-        publicPath: '/'
+        publicPath: '/',
+        chunkFilename: 'js/[name].bundle.js'
     },
     resolve: {
         alias,
@@ -93,7 +94,12 @@ const webpackConfig = {
         ...happyPackPlugins
     ],
     optimization: {
-        splitChunks: {}
+        splitChunks: {
+            // chunks(chunk) {
+            //     return ['vendors', 'global'].includes(chunk.name);
+            // }
+            // chunks: 'all'
+        }
     },
     performance: {
         hints: false

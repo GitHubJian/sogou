@@ -35,7 +35,7 @@ module.exports = ({ host = 'localhost', port = 8417 }) => {
     //静态资源
     webpackMiddleware({ hasVueRouter }, app);
     // app.use(assetProxyMiddleware());
-    app.use(notfoundMiddleware());
+    // app.use(notfoundMiddleware());
     // app.use(assetProxyMiddleware({ hasVueRouter }));
 
     app.listen(port, () => {

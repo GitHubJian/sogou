@@ -4,7 +4,9 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 import foo from './lib/foo.vue';
-import bar from './lib/bar.vue';
+// async import
+const bar = () => import(/* webpackChunkName: 'bar' */ './lib/bar.vue');
+const dynamic = () => import('./lib/dynamic.vue');
 
 export default new VueRouter({
     mode: 'history',
@@ -16,6 +18,10 @@ export default new VueRouter({
         {
             path: '/index/bar.html',
             component: bar
+        },
+        {
+            path: '/index/dynamic.html',
+            component: dynamic
         }
     ]
 });

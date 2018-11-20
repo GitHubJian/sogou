@@ -125,6 +125,7 @@
         "webpack-parallel-uglify-plugin": "^1.1.0"
     },
     "devDependencies": {
+        "@babel/plugin-syntax-dynamic-import": "^7.0.0",
         "babel-eslint": "^10.0.1",
         "eslint-config-airbnb": "^17.1.0",
         "eslint-plugin-import": "^2.14.0",
