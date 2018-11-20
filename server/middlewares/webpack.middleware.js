@@ -95,7 +95,7 @@ module.exports = async ({ hasVueRouter = true } = {}, app) => {
         if (reqPath.endsWith('.html')) {
             if (hasVueRouter) {
                 entryKey = reqPath.split('/').filter(v => v)[0];
-                ctx.path = `/${entryKey}.html`;
+                ctx.path = `/${entryKey}.html`;//dev hot middleware
             } else {
                 entryKey = reqPath.replace('.html', '').substring(1);
             }
