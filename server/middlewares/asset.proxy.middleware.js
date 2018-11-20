@@ -4,24 +4,36 @@ const config = require('config');
 const fse = require('fs-extra');
 const { static: staticPath } = config.get('path');
 
-module.exports = () => {
+module.exports = ({ hasVueRouter = true } = {}) => {
     return async (ctx, next) => {
+        debugger;
         let maxage = 365 * 24 * 60 * 60 * 1000; // one year
         let reqPath = ctx.path;
-
-        if (reqPath === '/') reqPath = '/index.html';
-
+        
+        if (reqPath === '/') {
+            if (hasVueRouter) {
+                reqPath === '/index/index.html';
+            } else {
+                reqPath = '/index.html';
+            }
+        }
+        
+        let entry = reqPath; // file of current request in static
         if (/.*\.html$/.test(reqPath)) {
             maxage = 0;
+            if (hasVueRouter) {
+                entry = reqPath.split('/').filter(v => v)[0];
+                entry = `/${entry}.html`;
+            }
         }
 
-        let filePath = path.resolve(staticPath, `.${reqPath}`);
+        let filePath = path.resolve(staticPath, `.${entry}`);
         const exists = await fse.pathExists(filePath);
 
         let result;
 
         if (exists) {
-            result = await send(ctx, reqPath, {
+            result = await send(ctx, entry, {
                 root: staticPath,
                 maxage,
                 setHeaders: (res, path, stats) => {

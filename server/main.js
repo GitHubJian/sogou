@@ -21,24 +21,26 @@ const {
     notfoundMiddleware
 } = require('./middlewares');
 
-module.exports = ({ host = 'localhost', port = 8418 }) => {
+let hasVueRouter = true;
+
+module.exports = ({ host = 'localhost', port = 8417 }) => {
     const app = new koa();
     app.use(koaLogger());
     app.use(koaFavicon(path.resolve(staticPath, 'favicon.ico')));
-    app.use(koaStatic('/static'));
     app.use(koaBody({ patchKoa: true }));
     //app.use(authMiddleware());
 
     routeMiddleware(app);
 
     //静态资源
-    webpackMiddleware(app);
-    app.use(assetProxyMiddleware());
+    webpackMiddleware({ hasVueRouter }, app);
+    // app.use(assetProxyMiddleware());
     app.use(notfoundMiddleware());
+    // app.use(assetProxyMiddleware({ hasVueRouter }));
 
     app.listen(port, () => {
         logger.info(`✨ 服务已启动 http://${host}:${port}\n`);
-        
+
         Object.keys(entry).map(v => {
             console.log(`http://${host}:${port}/${v}.html`);
         });

@@ -65,7 +65,7 @@ const getSingleHtmlPlugin = function(k, v) {
     });
 };
 
-module.exports = async app => {
+module.exports = async ({ hasVueRouter = true } = {}, app) => {
     if (!isDevelopment) {
         return;
     }
@@ -81,12 +81,26 @@ module.exports = async app => {
     });
 
     app.use(async (ctx, next) => {
-        if (ctx.path === '/' || ctx.path.endsWith('.html')) {
-            const entryKey =
-                ctx.path === '/'
-                    ? 'index'
-                    : path.join(ctx.path.replace('.html', '').substring(1));
-            const entryValue = projectEntry[entryKey];
+        let reqPath = ctx.path;
+        let entryKey, entryValue;
+
+        if (reqPath === '/') {
+            if (hasVueRouter) {
+                reqPath = '/index/index.html';
+            } else {
+                reqPath = '/index.html';
+            }
+        }
+
+        if (reqPath.endsWith('.html')) {
+            if (hasVueRouter) {
+                entryKey = reqPath.split('/').filter(v => v)[0];
+                ctx.path = `/${entryKey}.html`;
+            } else {
+                entryKey = reqPath.replace('.html', '').substring(1);
+            }
+
+            entryValue = projectEntry[entryKey];
 
             if (entryValue) {
                 if (htmlCache[entryKey]) {
@@ -118,6 +132,7 @@ module.exports = async app => {
     });
 
     app.use(async (ctx, next) => {
+        // 假如请求html页面或者静态资源
         ctx.status = 200;
         await devMiddlewareInstance(ctx.req, ctx.res, async () => {
             await next();

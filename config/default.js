@@ -27,7 +27,7 @@ let port = PORT || 8417,
     host = 'localhost',
     url = `http://${host}${port ? ':' + port : ''}`;
 
-module.exports = {
+let config = {
     path: {
         root: root,
         mock: resolve(root, 'mock'),
@@ -50,6 +50,7 @@ module.exports = {
         serverProxyConfig: resolve(root, 'server.proxy.config.js')
     },
     project: {
+        name: 'project', // project name
         title: 'Sogou Test'
     },
     server: {
@@ -73,3 +74,5 @@ module.exports = {
         db: 'test'
     }
 };
+
+module.exports = config;

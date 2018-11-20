@@ -1,18 +1,20 @@
 const {
-    pathConfig: { src, prepackPath }
+    pathConfig: { pages, prepackPath }
 } = require('./config');
 
 const glob = require('glob');
 const path = require('path');
-const fs = require('fs-extra');
-const { writeFileSync } = require('fs');
+const fse = require('fs-extra');
+const fs = require('fs');
 
-const createContent = entry => {
+const createContent = (p, router) => {
     return [
         `import Vue from 'vue';`,
-        `import entry from '${entry}';`,
+        `import entry from '${p}/index.vue';`,
+        router ? `import router from '${p}/router.js';` : '',
         '',
         `export default new Vue({`,
+        router ? `    router,` : '',
         `    el: '#app',`,
         `    render: h => h(entry)`,
         `})`
@@ -21,13 +23,21 @@ const createContent = entry => {
 
 const prepack = async () => {
     return glob
-        .sync(path.resolve(src, './pages/**/index.vue'))
+        .sync(path.resolve(pages, './**/index.vue'))
         .forEach(async entry => {
+            let p = entry
+                .split('/')
+                .slice(0, -1)
+                .join('/');
             let key = entry.split('/').slice(-2, -1)[0];
             let filePath = path.resolve(prepackPath, `${key}.js`);
-            await fs.ensureFileSync(filePath);
-            await writeFileSync(filePath, createContent(entry));
+            let hasRouter = await fs.existsSync(`${p}/router.js`);
+            await fse.outputFileSync(filePath, createContent(p, hasRouter), {
+                encoding: 'utf-8'
+            });
         });
 };
+
+prepack();
 
 module.exports = prepack;

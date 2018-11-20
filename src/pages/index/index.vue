@@ -4,6 +4,7 @@
             Hello, world111
             {{name}}
             <input v-model="name">
+            <router-view></router-view>
         </div>
     </layout>
 </template>

@@ -10,12 +10,7 @@ const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 const LIBRARY_NAME = '__[name]_[chunkhash]__';
 
 const entry = {
-    vendor: [
-        'vue',
-        'element-ui',
-        'element-ui/lib/theme-chalk/index.css',
-        'font-awesome/css/font-awesome.css'
-    ]
+    vendor: ['vue', 'vuex', 'vue-router']
 };
 
 const webpackConfig = {
