@@ -87,7 +87,7 @@ const webpackConfig = {
     },
     plugins: [
         new VueLoaderPlugin(),
-        // new VueSSRClientPlugin(),
+        new VueSSRClientPlugin(),
         new webpack.ProgressPlugin(),
         new webpack.EnvironmentPlugin(['NODE_ENV']),
         new webpack.DefinePlugin({

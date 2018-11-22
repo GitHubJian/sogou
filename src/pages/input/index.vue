@@ -1,6 +1,8 @@
 <template>
-    <div>1</div>
-</template><script>
+    <div>Input</div>
+</template>
+
+<script>
 export default {
     data() {
         return {};

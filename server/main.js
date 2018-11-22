@@ -18,7 +18,8 @@ const {
     webpackMiddleware,
     authMiddleware,
     routeMiddleware,
-    notfoundMiddleware
+    notfoundMiddleware,
+    ssrMiddleware
 } = require('./middlewares');
 
 let hasVueRouter = true;
@@ -33,10 +34,11 @@ module.exports = ({ host = 'localhost', port = 8417 }) => {
     routeMiddleware(app);
 
     //静态资源
-    webpackMiddleware({ hasVueRouter }, app);
+    // webpackMiddleware({ hasVueRouter }, app);
     // app.use(assetProxyMiddleware());
     // app.use(notfoundMiddleware());
     // app.use(assetProxyMiddleware({ hasVueRouter }));
+    app.use(ssrMiddleware());
 
     app.listen(port, () => {
         logger.info(`✨ 服务已启动 http://${host}:${port}\n`);

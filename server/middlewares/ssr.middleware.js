@@ -2,22 +2,40 @@ const { static: staticPath } = require('config').get('path');
 const fs = require('fs');
 const path = require('path');
 const { createBundleRenderer } = require('vue-server-renderer');
+const serverBundle = require(path.resolve(
+    staticPath,
+    'vue-ssr-server-bundle.json'
+));
 
-const createContent = key => {
-    const bundle = fs.readFileSync(
-        path.resolve(staticPath, `server/${key}.js`),
-        'utf-8'
-    );
+const clientManifest = require(path.resolve(
+    staticPath,
+    'vue-ssr-client-manifest.json'
+));
 
-    const renderer = createBundleRenderer(bundle, {
+const renderer = createBundleRenderer(serverBundle, {
+    runInNewContext: false,
+    // template: fs.readFileSync(path.resolve(staticPath, `${key}.ssr.html`), {
+    //     encoding: 'utf-8'
+    // }),
+    clientManifest
+});
+
+const createContent = (context, key) => {
+    // const bundle = fs.readFileSync(
+    //     path.resolve(staticPath, `server/${key}.js`),
+    //     'utf-8'
+    // );
+
+    const renderer = createBundleRenderer(serverBundle, {
         runInNewContext: false,
-        template: fs.readFileSync(path.resolve(staticPath, `${key}.ssr.html`), {
-            encoding: 'utf-8'
-        })
+        // template: fs.readFileSync(path.resolve(staticPath, `${key}.ssr.html`), {
+        //     encoding: 'utf-8'
+        // }),
+        clientManifest
     });
 
     return new Promise((resolve, reject) => {
-        renderer.renderToString((err, html) => {
+        renderer.renderToString({}, (err, html) => {
             if (err) reject(err);
             resolve(html);
         });
@@ -26,6 +44,7 @@ const createContent = key => {
 
 module.exports = () => {
     return async (ctx, next) => {
+        debugger;
         let reqPath = ctx.path == '/' ? '/index.html' : ctx.path;
 
         if (!reqPath.endsWith('.html')) {
@@ -35,14 +54,23 @@ module.exports = () => {
         let basename = path.basename(reqPath),
             [filename, ext] = basename.split('.');
 
-        createContent(filename)
-            .then(html => {
-                ctx.status = 200;
-                ctx.body = html;
-            })
-            .catch(err => {
-                ctx.status = 500;
+        renderer.renderToString({ url: '/input.html' }, (err, html) => {
+            debugger;
+            if (err) {
                 ctx.body = err;
-            });
+            } else {
+                ctx.body = html;
+            }
+        });
+
+        // createContent(filename)
+        //     .then(html => {
+        //         ctx.status = 200;
+        //         ctx.body = html;
+        //     })
+        //     .catch(err => {
+        //         ctx.status = 500;
+        //         ctx.body = err;
+        //     });
     };
 };

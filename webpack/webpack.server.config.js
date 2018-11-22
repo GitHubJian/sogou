@@ -11,7 +11,8 @@ const extractCSS = require('./extract');
 const webpackConfig = {
     mode: 'production',
     target: 'node',
-    entry: Object.assign({ global: pathConfig.global }, entry),
+    // entry: Object.assign({ global: pathConfig.globalServer }, entry),
+    entry,
     output: {
         filename: 'server/[name].js',
         path: pathConfig.static,
@@ -100,7 +101,7 @@ const webpackConfig = {
         // new webpack.DllReferencePlugin({
         //     manifest: require(`${pathConfig.dll}/vendor.json`)
         // }),
-        // new VueSSRServerPlugin()
+        new VueSSRServerPlugin()
     ]
 };
 
