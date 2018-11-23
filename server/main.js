@@ -16,7 +16,8 @@ const {
 const {
     assetProxyMiddleware,
     routeMiddleware,
-    ssrMiddleware
+    ssrMiddleware,
+    ssrHotMiddleware
 } = require('./middlewares');
 
 module.exports = ({ host = 'localhost', port = 8417 }) => {
@@ -26,7 +27,8 @@ module.exports = ({ host = 'localhost', port = 8417 }) => {
     app.use(koaBody({ patchKoa: true }));
 
     routeMiddleware(app);
-    app.use(ssrMiddleware());
+    ssrHotMiddleware(app)
+    // app.use(ssrMiddleware());
     app.use(assetProxyMiddleware());
 
     app.listen(port, () => {
