@@ -1,4 +1,4 @@
-const { pathConfig } = require('./config');
+const pathConfig = require('config').get('path');
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');

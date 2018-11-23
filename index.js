@@ -1,2 +1,2 @@
-require('./env.js');
+// require('./env.js');
 require('./server');

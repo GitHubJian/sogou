@@ -39,9 +39,10 @@ let config = {
         dll: resolve(root, '.temp/dll'),
         dllVersion: resolve(root, '.temp/dll/version.json'),
         webpack: resolve(root, 'webpack'),
-        template: resolve(root, 'webpack/template.ejs'),
+        template: resolve(root, 'template'),
         templateSSR: resolve(root, 'webpack/template.ssr.ejs'),
         prepackPath: resolve(root, '.temp/prepack'),
+        dist: resolve(root, 'dist'),
         static: resolve(root, 'static'),
         nodeModule: resolve(root, 'node_modules'),
         dist: resolve(root, 'dist'),
@@ -50,8 +51,9 @@ let config = {
         serverProxyConfig: resolve(root, 'server.proxy.config.js')
     },
     project: {
-        name: 'project', // project name
-        title: 'Sogou Test'
+        name: 'sogou', // project name
+        title: 'Sogou Test',
+        index: 'index'
     },
     server: {
         ...env,
