@@ -5,7 +5,7 @@ import Router from 'vue-router';
 Vue.use(Router);
 const { project, folder } = config;
 
-// const UserView = () => import('../views/UserView.vue');
+const HelloAsync = () => import('../views/HelloAsync.vue');
 import Helloworld from '../views/helloworld.vue';
 
 export function createRouter() {
@@ -13,7 +13,8 @@ export function createRouter() {
         mode: 'history',
         fallback: false,
         routes: [
-            { path: `/${project}/${folder}/index.html`, component: Helloworld }
+            { path: `/${project}/${folder}/index.html`, component: Helloworld },
+            { path: `/${project}/${folder}/async.html`, component: HelloAsync }
         ]
     });
 }
